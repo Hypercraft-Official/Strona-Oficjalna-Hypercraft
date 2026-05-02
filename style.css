@@ -146,3 +146,84 @@ nav { position: fixed; top: 0; width: 100%; padding: 20px 50px; display: flex; j
 .premium-badge { background: #bc13fe; color: #fff; font-size: 10px; font-weight: bold; padding: 4px 10px; border-radius: 10px; position: absolute; top: 10px; right: 10px; letter-spacing: 1px; }
 .void-title { font-weight: 900; color: #bc13fe; text-shadow: 0 0 10px rgba(188, 19, 254, 0.5); }
 .price-tag { color: #bc13fe !important; font-size: 1.5rem !important; }
+/* --- RESPONSYWNOŚĆ (DLA TELEFONÓW I TABLETÓW) --- */
+
+@media (max-width: 992px) {
+    .updates-grid {
+        gap: 15px;
+    }
+    .update-card {
+        width: calc(50% - 15px); /* 2 karty obok siebie na tabletach */
+    }
+}
+
+@media (max-width: 768px) {
+    /* Nawigacja */
+    nav {
+        padding: 10px 20px;
+        flex-direction: column; /* Logo nad linkami */
+        gap: 10px;
+    }
+    .logo {
+        font-size: 28px;
+    }
+    .nav-links {
+        gap: 15px;
+        font-size: 0.8rem;
+    }
+    .shop-btn {
+        padding: 5px 10px;
+        font-size: 0.7rem;
+    }
+
+    /* Hero Section */
+    .tab-content {
+        padding-top: 160px; /* Więcej miejsca przez piętrowe menu */
+    }
+    .magic-text {
+        font-size: 3rem; /* Zmniejszenie napisu głównego */
+    }
+    .subtitle {
+        font-size: 1.1rem;
+    }
+    .copy-ip-btn {
+        padding: 15px 20px;
+        font-size: 1rem;
+        width: 100%; /* Przycisk na całą szerokość */
+    }
+
+    /* Karty aktualizacji i sklep */
+    .update-card, .shop-item {
+        width: 100%; /* Wszystko w jednej kolumnie */
+        max-width: 100%;
+    }
+
+    .section-title {
+        font-size: 2.2rem;
+    }
+
+    /* Dashboard ekonomii */
+    .coin-dashboard {
+        padding: 20px;
+        width: 100%;
+    }
+    #main-balance {
+        font-size: 2.5rem;
+    }
+    
+    /* Dekoracje tła - ukrywamy na mobile, żeby nie psuły układu */
+    .floating-cube, .floating-ring {
+        display: none;
+    }
+}
+
+/* Poprawka dla bardzo małych ekranów (np. iPhone SE) */
+@media (max-width: 400px) {
+    .nav-links {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    .magic-text {
+        font-size: 2.5rem;
+    }
+}
