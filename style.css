@@ -14,14 +14,14 @@
 * { 
     margin: 0; 
     padding: 0; 
-    box-sizing: border-box; /* To klucz do responsywności */
+    box-sizing: border-box; 
 }
 
 html, body {
     background-color: var(--bg-dark); 
     color: var(--text-main); 
     font-family: var(--font-body);
-    overflow-x: hidden; /* Blokuje przesuwanie na boki */
+    overflow-x: hidden; 
     width: 100%;
     min-height: 100vh;
     transition: background-color 1s ease, color 1s ease;
@@ -68,7 +68,7 @@ nav {
 .nav-links a:hover, .active-nav { color: var(--accent) !important; text-shadow: 0 0 10px var(--accent); }
 .coin-nav { display: flex; align-items: center; gap: 8px; color: #bc13fe !important; }
 
-/* --- BANKNOTY I ELEMENTY --- */
+/* --- BANKNOTY --- */
 .hc-bill-small {
     background: linear-gradient(135deg, #4a00e0, #8e2de2); border: 1px solid #d400ff;
     width: 30px; height: 18px; border-radius: 4px; display: flex; align-items: center; justify-content: center;
@@ -87,15 +87,15 @@ nav {
 .active-tab { display: block; }
 @keyframes fadeIn { from { opacity: 0; transform: scale(0.98); } to { opacity: 1; transform: scale(1); } }
 
-/* --- EKRAN GŁÓWNY --- */
+/* --- EKRAN GŁÓWNY (HERO) --- */
 .hero-content { max-width: 100%; margin: 0 auto; position: relative; z-index: 2; }
-.magic-text { font-size: 5rem; background: linear-gradient(to right, #fff, var(--primary), var(--accent)); background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: pulseGlow 3s infinite alternate; margin-bottom: 10px; line-height: 1.1; }
-.subtitle { font-size: 1.2rem; margin-bottom: 30px; color: #bbb; }
+.magic-text { font-size: 5.5rem; background: linear-gradient(to right, #fff, var(--primary), var(--accent)); background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: pulseGlow 3s infinite alternate; margin-bottom: 10px; line-height: 1.1; }
+.subtitle { font-size: 1.3rem; margin-bottom: 30px; color: #bbb; }
 
-.server-status { display: inline-flex; align-items: center; gap: 10px; background: rgba(0,0,0,0.5); padding: 8px 20px; border-radius: 50px; border: 1px solid var(--primary); margin-bottom: 30px; }
+.server-status { display: inline-flex; align-items: center; gap: 10px; background: rgba(0,0,0,0.5); padding: 8px 25px; border-radius: 50px; border: 1px solid var(--primary); margin-bottom: 30px; }
 .status-dot { width: 10px; height: 10px; background: #00ff88; border-radius: 50%; box-shadow: 0 0 10px #00ff88; }
 
-.copy-ip-btn { position: relative; background: var(--glass-bg); border: 2px solid var(--primary); color: #fff; padding: 15px 30px; font-size: 1.2rem; border-radius: 8px; cursor: pointer; transition: 0.3s; width: 100%; max-width: 400px; }
+.copy-ip-btn { position: relative; background: var(--glass-bg); border: 2px solid var(--primary); color: #fff; padding: 18px 40px; font-size: 1.3rem; border-radius: 8px; cursor: pointer; transition: 0.3s; width: 100%; max-width: 450px; overflow: hidden; }
 
 /* --- DEKORACJE --- */
 .floating-cube { position: absolute; width: 40px; height: 40px; border: 1px solid var(--primary); opacity: 0.2; pointer-events: none; }
@@ -103,7 +103,7 @@ nav {
 .cube-2 { bottom: 10%; right: 5%; }
 
 /* --- AKTUALIZACJE --- */
-.section-title { font-size: 2.5rem; margin-bottom: 30px; }
+.section-title { font-size: 3rem; margin-bottom: 40px; }
 .video-showcase { width: 100%; max-width: 800px; margin: 0 auto 40px; background: var(--glass-bg); padding: 15px; border-radius: 15px; border: 1px solid var(--primary); }
 .video-wrapper { position: relative; padding-bottom: 56.25%; height: 0; border-radius: 8px; overflow: hidden; }
 .video-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
@@ -111,14 +111,49 @@ nav {
 .updates-grid { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; width: 100%; max-width: 1200px; margin: 0 auto; }
 .update-card { background: var(--glass-bg); border: 1px solid rgba(255,255,255,0.1); padding: 25px; border-radius: 15px; width: calc(33.33% - 20px); text-align: left; transition: 0.4s; }
 
+/* --- PRZYCISKI (POPRAWKA MOBILE) --- */
+.magic-btn {
+    background: linear-gradient(45deg, var(--primary), var(--accent)) !important;
+    border: none !important;
+    color: #fff !important;
+    padding: 15px 30px;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    transition: 0.3s;
+    text-transform: uppercase;
+    font-family: var(--font-headers);
+    display: inline-block;
+    
+    /* WYŁĄCZENIE WYGLĄDU SYSTEMOWEGO (iOS/Android) */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+}
+
+.magic-btn:hover:not(:disabled) {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px var(--accent);
+}
+
+.magic-btn:disabled {
+    background: #333 !important;
+    color: #666 !important;
+    cursor: not-allowed;
+    box-shadow: none !important;
+    transform: none !important;
+}
+
 /* --- EKONOMIA I SKLEP --- */
 .coin-dashboard { background: var(--glass-bg); padding: 30px; border-radius: 20px; border: 1px solid var(--primary); max-width: 450px; margin: 0 auto 40px; }
-#main-balance { font-size: 3rem; color: #bc13fe; margin-bottom: 15px; }
+#main-balance { font-size: 3.5rem; color: #bc13fe; text-shadow: 0 0 20px #bc13fe; margin-bottom: 15px; }
 
 .custom-shop { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; }
 .shop-item { background: var(--glass-bg); padding: 25px 15px; border-radius: 15px; border: 1px solid transparent; width: 260px; display: flex; flex-direction: column; align-items: center; transition: 0.3s; }
 
-/* --- MOBILE QUERIES (TU DZIEJE SIĘ MAGIA) --- */
+/* --- RESPONSIVE QUERIES --- */
 
 @media (max-width: 1024px) {
     .update-card { width: calc(50% - 20px); }
@@ -131,35 +166,33 @@ nav {
     }
     .nav-links {
         margin-top: 10px;
-        gap: 10px;
+        gap: 12px;
         flex-wrap: wrap;
         justify-content: center;
     }
-    .nav-links a { font-size: 0.75rem; }
+    .nav-links a { font-size: 0.8rem; }
     
-    .tab-content { padding-top: 160px; } /* Miejsce na piętrowy nav */
+    .tab-content { padding-top: 180px; } 
     
-    .magic-text { font-size: 3rem; }
-    .section-title { font-size: 2rem; }
+    .magic-text { font-size: 3.2rem; }
+    .section-title { font-size: 2.2rem; }
 
-    .update-card, .shop-item {
-        width: 100% !important; /* Wymuszamy pełną szerokość */
-        max-width: 100%;
-        min-width: 0 !important; /* Usuwamy blokadę szerokości */
+    .update-card, .shop-item, .copy-ip-btn, .claim-btn {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
     }
     
-    .floating-cube, .floating-ring { display: none; } /* Usuwamy zbędne bajery na mobile */
-    
-    .copy-ip-btn { font-size: 1rem; padding: 12px; }
+    .floating-cube, .floating-ring { display: none; }
 }
 
 @media (max-width: 480px) {
-    .magic-text { font-size: 2.2rem; }
-    #main-balance { font-size: 2.2rem; }
-    .logo { font-size: 24px; }
-    .nav-links { gap: 8px; }
+    .magic-text { font-size: 2.5rem; }
+    #main-balance { font-size: 2.5rem; }
+    .logo { font-size: 26px; }
 }
 
-/* Animacje bez zmian */
+/* ANIMACJE */
 @keyframes floatBill { 0%, 100% { transform: translateY(0) rotate(-2deg); } 50% { transform: translateY(-10px) rotate(2deg); } }
 @keyframes pulseGlow { 0% { filter: drop-shadow(0 0 5px var(--primary)); } 100% { filter: drop-shadow(0 0 15px var(--accent)); } }
+@keyframes pulseCore { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(1.2); } }
