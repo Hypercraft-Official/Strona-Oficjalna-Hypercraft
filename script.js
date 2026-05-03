@@ -18,6 +18,57 @@ document.addEventListener("DOMContentLoaded", () => {
     updateTimers(); 
 });
 
+// --- CUSTOMOWE POWIADOMIENIA ---
+function showToast(message, type = 'info') {
+    const container = document.getElementById('toast-container');
+    if (!container) return;
+    
+    const toast = document.createElement('div');
+    toast.className = `toast ${type}`;
+    toast.innerHTML = message;
+    
+    container.appendChild(toast);
+    
+    // Usuń element z DOM po zakończeniu animacji (4 sekundy)
+    setTimeout(() => {
+        if(toast.parentElement) toast.remove();
+    }, 4000);
+}
+
+// --- CUSTOM MODAL (ZAMIAST CONFIRM) ---
+function showConfirm(title, message, onConfirm) {
+    const overlay = document.createElement('div');
+    overlay.className = 'modal-overlay';
+    
+    overlay.innerHTML = `
+        <div class="custom-modal">
+            <h3>${title}</h3>
+            <p>${message}</p>
+            <div class="modal-buttons">
+                <button class="magic-btn btn-cancel" id="modal-cancel">Anuluj</button>
+                <button class="magic-btn btn-confirm" id="modal-confirm">Potwierdź</button>
+            </div>
+        </div>
+    `;
+    
+    document.body.appendChild(overlay);
+    
+    document.getElementById('modal-cancel').onclick = () => {
+        overlay.remove();
+    };
+    
+    document.getElementById('modal-confirm').onclick = () => {
+        onConfirm();
+        overlay.remove();
+    };
+}
+
+// --- NAWIGACJA MOBILNA ---
+function toggleMenu() {
+    const navLinks = document.getElementById('nav-links');
+    navLinks.classList.toggle('active');
+}
+
 // --- NAWIGACJA (SPA) ---
 function switchTab(tabId) {
     document.querySelectorAll('.tab-content').forEach(tab => {
@@ -28,23 +79,31 @@ function switchTab(tabId) {
     });
 
     const targetTab = document.getElementById(tabId);
-    targetTab.classList.add('active-tab');
+    if(targetTab) targetTab.classList.add('active-tab');
     
-    if(event && event.currentTarget.classList.contains('nav-item')) {
+    // Obsługa dodawania klasy active na menu
+    if(event && event.currentTarget && event.currentTarget.classList.contains('nav-item')) {
         event.currentTarget.classList.add('active-nav');
     } else {
-        // Jeśli kliknięto z widgetu zamiast z menu
         const menuLink = document.querySelector(`.nav-item[onclick*="${tabId}"]`);
         if(menuLink) menuLink.classList.add('active-nav');
     }
 
-    // Reset animacji dla efektu pojawiania się
-    const animatedElements = targetTab.querySelectorAll('.slide-up');
-    animatedElements.forEach(el => {
-        el.style.animation = 'none';
-        el.offsetHeight; 
-        el.style.animation = null; 
-    });
+    // Zamknij menu mobilne przy kliknięciu w link
+    const navLinks = document.getElementById('nav-links');
+    if(navLinks && navLinks.classList.contains('active')) {
+        navLinks.classList.remove('active');
+    }
+
+    // Reset animacji
+    if(targetTab) {
+        const animatedElements = targetTab.querySelectorAll('.slide-up');
+        animatedElements.forEach(el => {
+            el.style.animation = 'none';
+            el.offsetHeight; 
+            el.style.animation = null; 
+        });
+    }
     
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
@@ -59,6 +118,8 @@ function copyIP() {
         btn.style.background = 'rgba(0, 255, 136, 0.3)';
         btn.style.borderColor = '#00ff88';
         
+        showToast('Pomyślnie skopiowano adres IP serwera!', 'success');
+        
         setTimeout(() => {
             btnText.innerHTML = "SKOPIUJ IP: <strong>hypercraft.ivhs.pl</strong>";
             btn.style.background = '';
@@ -70,10 +131,11 @@ function copyIP() {
 // --- EKONOMIA (HYPERCOINS) ---
 function updateUI() {
     const formattedBalance = balance.toLocaleString('pl-PL');
-    document.getElementById('nav-balance').innerText = formattedBalance;
-    if(document.getElementById('main-balance')) {
-        document.getElementById('main-balance').innerText = formattedBalance;
-    }
+    const navBal = document.getElementById('nav-balance');
+    const mainBal = document.getElementById('main-balance');
+    
+    if(navBal) navBal.innerText = formattedBalance;
+    if(mainBal) mainBal.innerText = formattedBalance;
 }
 
 // Dzienny odbior
@@ -85,15 +147,14 @@ function claimDaily() {
         saveData();
         updateUI();
         updateTimers();
-        alert("✅ Transfer udany! Zasilenie konta: +50 HC");
+        showToast("✅ Transfer udany! Zasilenie konta: +50 HC", 'success');
     }
 }
 
-// Otwieranie skrzyni (Losowe 10-150 HC co 4 godziny)
+// Otwieranie skrzyni
 function openChest() {
     const now = new Date().getTime();
     if (now - lastChestClaim >= CHEST_COOLDOWN) {
-        // Losuj kwote od 10 do 150
         const reward = Math.floor(Math.random() * 141) + 10;
         balance += reward;
         lastChestClaim = now;
@@ -101,9 +162,46 @@ function openChest() {
         updateUI();
         updateTimers();
         
-        // Efekt specjalny
-        alert(`🎉 Niesamowite! Znalazłeś w skrzyni ${reward} HC!`);
+        showToast(`🎉 Niesamowite! Znalazłeś w skrzyni <strong>${reward} HC</strong>!`, 'success');
     }
+}
+
+// --- SYSTEM CLICKERA (NOWOŚĆ) ---
+function mineHC(event) {
+    balance += 1;
+    saveData();
+    updateUI();
+    
+    // Tworzenie odlatującego tekstu
+    const clickerCore = document.querySelector('.clicker-core');
+    const rect = clickerCore.getBoundingClientRect();
+    
+    // Losowe przesunięcie w ramach kliknięcia
+    const offsetX = (Math.random() - 0.5) * 40; 
+    
+    const floatText = document.createElement('div');
+    floatText.className = 'floating-text';
+    floatText.innerText = '+1 HC';
+    
+    // Ustawienie pozycji blisko myszki / dotyku
+    let x = event.clientX;
+    let y = event.clientY;
+    
+    // Fallback dla urzadzeń mobilnych
+    if(x === undefined) {
+        x = rect.left + (rect.width / 2);
+        y = rect.top + (rect.height / 2);
+    }
+    
+    floatText.style.left = `${x + offsetX}px`;
+    floatText.style.top = `${y - 20}px`;
+    
+    document.body.appendChild(floatText);
+    
+    // Usunięcie po animacji
+    setTimeout(() => {
+        floatText.remove();
+    }, 1000);
 }
 
 // Aktualizacja obu timerów
@@ -175,31 +273,32 @@ function applyFont(font) {
     currentFont = font;
 }
 
+function buyTheme(themeName, price) {
+    executePurchase(price, `Motyw: ${themeName}`, () => {
+        applyTheme(themeName);
+        saveData();
+        showToast(`Pomyślnie zmieniono motyw na ${themeName}!`, 'success');
+    });
+}
+
+function buyFont(fontName, price) {
+    executePurchase(price, `Czcionka: ${fontName}`, () => {
+        applyFont(fontName);
+        saveData();
+        showToast(`Pomyślnie aktywowano nową czcionkę!`, 'success');
+    });
+}
+
 function executePurchase(price, itemName, successCallback) {
     if (balance >= price) {
-        if (confirm(`Zatwierdź transfer: ${price} HC za [${itemName}]?`)) {
+        showConfirm('Weryfikacja transakcji', `Zatwierdź transfer: <strong>${price} HC</strong> za <strong>[${itemName}]</strong>?`, () => {
             balance -= price;
             successCallback();
             saveData();
             updateUI();
-        }
+        });
     } else {
-        alert(`❌ Błąd: Niewystarczająca ilość energii HC. Brakuje Ci ${price - balance} HC.`);
+        const missing = price - balance;
+        showToast(`❌ Błąd: Niewystarczająca ilość energii HC. Brakuje Ci <strong>${missing} HC</strong>!`, 'error');
     }
-}
-
-function buyTheme(theme, price) {
-    if (currentTheme === theme) return alert("⚠️ Ten motyw jest już aktywny.");
-    executePurchase(price, `Motyw: ${theme}`, () => {
-        applyTheme(theme);
-        alert(theme === 'void' ? "🌌 CAŁUN PUSTKI ZAAKCEPTOWAŁ CIĘ." : "🎨 Zmiana wizualna powiodła się.");
-    });
-}
-
-function buyFont(font, price) {
-    if (currentFont === font) return alert("⚠️ Ten styl czcionki jest już aktywny.");
-    executePurchase(price, `Czcionka: ${font}`, () => {
-        applyFont(font);
-        alert("🔤 Pomyślnie zaktualizowano interfejs tekstowy.");
-    });
 }
