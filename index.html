@@ -60,10 +60,10 @@
 
         <!-- SEKCJA: AKTUALIZACJE (DZIENNIK) -->
         <section id="updates" class="tab-content">
-            <h2 class="section-title">DZIENNIK ZMIAN</h2>
+            <h2 class="section-title slide-up">DZIENNIK ZMIAN</h2>
             
             <!-- Wyróżniony film z YouTube -->
-            <div class="video-showcase">
+            <div class="video-showcase slide-up" style="animation-delay: 0.1s;">
                 <h3 class="showcase-title">🔥 Najnowsza Aktualizacja: OFFICIAL RELEASE</h3>
                 <div class="video-wrapper">
                     <!-- Zmień link w src na embed swojego filmu z YT -->
@@ -72,17 +72,17 @@
             </div>
 
             <div class="updates-grid">
-                <div class="update-card">
+                <div class="update-card slide-up" style="animation-delay: 0.2s;">
                     <div class="update-date">Upd 0.0 | 16 Maj 2026</div>
                     <h3>Nowy Sklep WWW</h3>
                     <p>Zintegrowaliśmy HyperCoins z panelem gracza. Dodano nowe motywy i możliwość kupowania paczek zasobów!</p>
                 </div>
-                <div class="update-card">
+                <div class="update-card slide-up" style="animation-delay: 0.3s;">
                     <div class="update-date">Beta 1.0 | 16 Maj 2026</div>
                     <h3>Wielki Start Serwera</h3>
                     <p>Serwer wystartował. Dodaliśmy 5 nowych mechanik oraz naprawilismy ekonomię na spawnie.</p>
                 </div>
-                <div class="update-card">
+                <div class="update-card slide-up" style="animation-delay: 0.4s;">
                     <div class="update-date">Hotfix 1.0.0 | 16 Maj 2026</div>
                     <h3>Nowości Serwerowe</h3>
                     <p>Naprawiono błedy i bugi, zwiększono wytrzymałość Galaktycznego Haku o 70%.</p>
@@ -92,10 +92,10 @@
 
         <!-- SEKCJA: EKONOMIA / SKLEP -->
         <section id="economy" class="tab-content">
-            <h2 class="section-title">SKARBIEC HYPERCOINS</h2>
+            <h2 class="section-title slide-up">SKARBIEC HYPERCOINS</h2>
             
             <!-- Portfel -->
-            <div class="coin-dashboard">
+            <div class="coin-dashboard slide-up" style="animation-delay: 0.1s;">
                 <div class="big-hc-bill">
                     <span>HC</span>
                 </div>
@@ -110,7 +110,7 @@
             </div>
 
             <!-- SKLEP: PAKIETY -->
-            <div class="shop-category">
+            <div class="shop-category slide-up" style="animation-delay: 0.2s;">
                 <h3 class="category-title">🔥 ZESTAWY (BUNDLES)</h3>
                 <div class="custom-shop">
                     <div class="shop-item bundle-item" onclick="buyBundle('overlord', 2000)">
@@ -123,22 +123,22 @@
             </div>
 
             <!-- SKLEP: MOTYWY -->
-            <div class="shop-category">
+            <div class="shop-category slide-up" style="animation-delay: 0.3s;">
                 <h3 class="category-title">🎨 MOTYWY WIZUALNE</h3>
                 <div class="custom-shop">
                     <div class="shop-item" onclick="buyTheme('toxic', 300)">
-                        <div class="color-preview toxic"></div>
+                        <div class="color-preview toxic" style="background: #00ff40; width: 40px; height: 40px; border-radius: 50%; margin-bottom: 10px; box-shadow: 0 0 15px #00ff40;"></div>
                         <h4>Toksyczny</h4>
-                        <span>300 HC</span>
+                        <span class="price-tag">300 HC</span>
                     </div>
                     <div class="shop-item" onclick="buyTheme('blood', 500)">
-                        <div class="color-preview blood"></div>
+                        <div class="color-preview blood" style="background: #ff0000; width: 40px; height: 40px; border-radius: 50%; margin-bottom: 10px; box-shadow: 0 0 15px #ff0000;"></div>
                         <h4>Krwawy Księżyc</h4>
-                        <span>500 HC</span>
+                        <span class="price-tag">500 HC</span>
                     </div>
                     <div class="shop-item void-premium" onclick="buyTheme('void', 1200)">
-                        <div class="void-preview"><div class="void-core"></div></div>
-                        <div class="premium-badge">LEGENDARNY</div>
+                        <div class="void-preview" style="background: radial-gradient(circle, #bc13fe, #3a0066); width: 40px; height: 40px; border-radius: 50%; margin-bottom: 10px; box-shadow: 0 0 20px #bc13fe; animation: pulseGlow 2s infinite alternate;"></div>
+                        <div class="premium-badge" style="font-size: 0.7rem; color: #bc13fe; margin-bottom: 5px;">LEGENDARNY</div>
                         <h4 class="void-title">Otchłań Galaktyki</h4>
                         <span class="price-tag">1200 HC</span>
                     </div>
@@ -146,23 +146,23 @@
             </div>
 
             <!-- SKLEP: CZCIONKI -->
-            <div class="shop-category">
+            <div class="shop-category slide-up" style="animation-delay: 0.4s;">
                 <h3 class="category-title">🔤 STYLE TEKSTU (CZCIONKI)</h3>
                 <div class="custom-shop">
                     <div class="shop-item font-preview cyber-font" onclick="buyFont('cyber', 400)">
-                        <h4>Haker Systemu</h4>
+                        <h4 style="font-family: 'Share Tech Mono', monospace;">Haker Systemu</h4>
                         <p>Terminalowy styl</p>
-                        <span>400 HC</span>
+                        <span class="price-tag">400 HC</span>
                     </div>
                     <div class="shop-item font-preview retro-font" onclick="buyFont('retro', 600)">
-                        <h4>Retro Gracz</h4>
-                        <p>Styl 8-bit</p>
-                        <span>600 HC</span>
+                        <h4 style="font-family: 'Press Start 2P', cursive; font-size: 0.7rem;">Retro Gracz</h4>
+                        <p style="font-size: 0.7rem;">Styl 8-bit</p>
+                        <span class="price-tag">600 HC</span>
                     </div>
                     <div class="shop-item font-preview ancient-font" onclick="buyFont('ancient', 800)">
-                        <h4>Starożytny Zwój</h4>
+                        <h4 style="font-family: 'Cinzel', serif;">Starożytny Zwój</h4>
                         <p>Epicki i dumny</p>
-                        <span>800 HC</span>
+                        <span class="price-tag">800 HC</span>
                     </div>
                 </div>
             </div>
