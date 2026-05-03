@@ -1,78 +1,121 @@
-let balance = localStorage.getItem('hc_balance') ? parseInt(localStorage.getItem('hc_balance')) : 0;
-let lastClaim = localStorage.getItem('hc_last_claim') ? parseInt(localStorage.getItem('hc_last_claim')) : 0;
-let lastChestClaim = localStorage.getItem('hc_last_chest') ? parseInt(localStorage.getItem('hc_last_chest')) : 0;
+// --- STAN ---
+let balance = parseInt(localStorage.getItem('hc_balance') || 0);
+let lastClaim = parseInt(localStorage.getItem('hc_last_claim') || 0);
+let lastChest = parseInt(localStorage.getItem('hc_last_chest') || 0);
 
-const CLAIM_COOLDOWN = 24 * 60 * 60 * 1000;
-const CHEST_COOLDOWN = 4 * 60 * 60 * 1000;
-
-document.addEventListener("DOMContentLoaded", () => {
+// --- INICJALIZACJA ---
+document.addEventListener('DOMContentLoaded', () => {
     updateUI();
     setInterval(updateTimers, 1000);
-    updateTimers();
 });
 
-function updateUI() {
-    document.getElementById('nav-balance').innerText = balance.toLocaleString();
-    if(document.getElementById('main-balance')) {
-        document.getElementById('main-balance').innerText = balance.toLocaleString();
-    }
+// --- POWIADOMIENIA ---
+function notify(msg, type = 'error') {
+    const notifier = document.getElementById('hyper-notifier');
+    const toast = document.createElement('div');
+    toast.className = `toast ${type}`;
+    toast.innerHTML = `
+        <div style="font-size: 0.6rem; color: #888; font-weight: 800;">POWIADOMIENIE SYSTEMOWE</div>
+        <div style="font-weight: 600;">${msg}</div>
+    `;
+    notifier.appendChild(toast);
+
+    setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateX(20px)';
+        setTimeout(() => toast.remove(), 500);
+    }, 3000);
 }
 
-function showToast(msg) {
-    const container = document.getElementById('toast-container');
-    const t = document.createElement('div');
-    t.className = 'toast';
-    t.innerText = msg;
-    container.appendChild(t);
-    setTimeout(() => t.remove(), 3000);
-}
-
-function switchTab(id) {
+// --- NAWIGACJA ---
+function switchTab(id, el) {
+    // Ukryj sekcje
     document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active-tab'));
+    // Dezaktywuj przyciski nav
+    document.querySelectorAll('.nav-slot').forEach(s => s.classList.remove('active-slot'));
+
+    // Aktywuj wybrane
     document.getElementById(id).classList.add('active-tab');
-    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active-nav'));
-    event.currentTarget.classList.add('active-nav');
+    if(el) el.classList.add('active-slot');
+
+    // Feedback dotykowy
+    if (navigator.vibrate) navigator.vibrate(15);
+    window.scrollTo(0, 0);
+}
+
+// --- KOPIOWANIE ---
+function copyIP() {
+    const ip = "HYPERCRAFT.IVHS.PL";
+    navigator.clipboard.writeText(ip).then(() => {
+        notify("IP SKOPIOWANE DO SCHOWKA!", "success");
+    });
+}
+
+// --- EKONOMIA ---
+function updateUI() {
+    const display = balance.toLocaleString();
+    document.getElementById('nav-balance').innerText = display;
+    localStorage.setItem('hc_balance', balance);
 }
 
 function claimDaily() {
     const now = Date.now();
-    if (now - lastClaim >= CLAIM_COOLDOWN) {
+    if (now - lastClaim > 86400000) {
         balance += 50;
         lastClaim = now;
-        localStorage.setItem('hc_balance', balance);
         localStorage.setItem('hc_last_claim', lastClaim);
         updateUI();
-        showToast("Odebrano 50 HC!");
+        notify("ODEBRANO 50 HC!", "success");
+    } else {
+        notify("TWOJE ZASYPY SĄ JESZCZE PEŁNE!");
     }
 }
 
 function openChest() {
     const now = Date.now();
-    if (now - lastChestClaim >= CHEST_COOLDOWN) {
-        const reward = Math.floor(Math.random() * 141) + 10;
-        balance += reward;
-        lastChestClaim = now;
-        localStorage.setItem('hc_balance', balance);
-        localStorage.setItem('hc_last_chest', lastChestClaim);
+    if (now - lastChest > 14400000) { // 4h
+        const win = Math.floor(Math.random() * 191) + 10;
+        balance += win;
+        lastChest = now;
+        localStorage.setItem('hc_last_chest', lastChest);
         updateUI();
-        showToast(`Znaleziono ${reward} HC!`);
+        notify(`LUCKY BOX: +${win} HC!`, "success");
+    } else {
+        notify("SKRZYNIA JEST PUSTA!");
     }
 }
 
+function buyItem(name, price) {
+    if (balance >= price) {
+        balance -= price;
+        updateUI();
+        notify(`ZAKUPIONO: ${name}!`, "success");
+    } else {
+        notify(`BRAK ŚRODKÓW! BRAKUJE ${price - balance} HC`);
+    }
+}
+
+// --- TIMERY ---
 function updateTimers() {
     const now = Date.now();
-    // Prosta obsługa timerów w tekście przycisków lub pod nimi
-    const dailyLeft = CLAIM_COOLDOWN - (now - lastClaim);
-    if(dailyLeft > 0) {
-        document.getElementById('claim-btn').disabled = true;
-        document.getElementById('timer-text').innerText = "Dostępne za: " + new Date(dailyLeft).toISOString().substr(11, 8);
+    
+    // Dzienny
+    const dailyTag = document.getElementById('timer-daily');
+    if(now - lastClaim < 86400000) {
+        dailyTag.innerText = "ŁADOWANIE...";
+        dailyTag.style.color = "#555";
     } else {
-        document.getElementById('claim-btn').disabled = false;
-        document.getElementById('timer-text').innerText = "Gotowe!";
+        dailyTag.innerText = "GOTOWE";
+        dailyTag.style.color = "#00f3ff";
     }
-}
 
-function copyIP() {
-    navigator.clipboard.writeText("hypercraft.ivhs.pl");
-    showToast("Skopiowano IP!");
+    // Skrzynia
+    const chestTag = document.getElementById('timer-chest');
+    if(now - lastChest < 14400000) {
+        chestTag.innerText = "PUSTE";
+        chestTag.style.color = "#555";
+    } else {
+        chestTag.innerText = "GOTOWE";
+        chestTag.style.color = "#ff0055";
+    }
 }
