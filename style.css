@@ -1,117 +1,86 @@
-/* --- CUSTOM POWIADOMIENIA (TOASTY) --- */
-#toast-container {
+:root {
+    --primary: #8a2be2;
+    --accent: #00f3ff;
+    --bg-dark: #0a0a12;
+    --glass-bg: rgba(255, 255, 255, 0.05);
+    --text: #ffffff;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background: var(--bg-dark);
+    color: var(--text);
+    font-family: 'Space Grotesk', sans-serif;
+    overflow-x: hidden;
+}
+
+/* TŁO GALAXY */
+.galaxy-bg {
     position: fixed;
-    bottom: 20px;
-    right: 20px;
-    z-index: 9999;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: radial-gradient(circle at center, #1b0a33 0%, #0a0a12 100%);
+    z-index: -1;
+}
+
+/* NAVBAR */
+nav {
     display: flex;
-    flex-direction: column;
-    gap: 15px;
-    pointer-events: none;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 5%;
+    background: rgba(0,0,0,0.5);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--glass-bg);
 }
 
-.toast {
+.logo { font-size: 1.5rem; font-weight: bold; }
+.logo span { color: var(--primary); }
+
+.nav-links { display: flex; list-style: none; gap: 20px; }
+.nav-links a { color: white; text-decoration: none; font-weight: 500; transition: 0.3s; }
+.nav-links a:hover, .active-nav { color: var(--accent); }
+
+/* KARTY / WIDGETY */
+.glass-card {
     background: var(--glass-bg);
-    backdrop-filter: blur(15px);
-    border-left: 5px solid var(--primary);
+    border: 1px solid rgba(255,255,255,0.1);
+    padding: 25px;
+    border-radius: 15px;
+    backdrop-filter: blur(10px);
+}
+
+/* POWIADOMIENIA */
+#toast-container { position: fixed; bottom: 20px; right: 20px; z-index: 999; }
+.toast {
+    background: rgba(0,0,0,0.8);
+    border-left: 4px solid var(--primary);
     padding: 15px 25px;
-    border-radius: 8px;
-    color: #fff;
+    margin-top: 10px;
+    border-radius: 5px;
+    animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn { from { transform: translateX(100%); } to { transform: translateX(0); } }
+
+/* RESPONSYWNOŚĆ */
+@media (max-width: 768px) {
+    .nav-links { display: none; } /* Uproszczenie na potrzeby naprawy */
+    .menu-toggle { display: block; }
+}
+
+/* UKRYWANIE TABÓW */
+.tab-content { display: none; padding: 100px 5% 50px; text-align: center; }
+.active-tab { display: block; }
+
+.magic-btn {
+    background: var(--primary);
+    border: none;
+    color: white;
+    padding: 12px 30px;
+    border-radius: 30px;
+    cursor: pointer;
     font-weight: bold;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-    animation: slideInRight 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55), fadeOut 0.4s ease 3.5s forwards;
-    min-width: 250px;
-}
-
-.toast.success { border-color: #00ff88; box-shadow: 0 0 15px rgba(0,255,136,0.2); }
-.toast.error { border-color: #ff0055; box-shadow: 0 0 15px rgba(255,0,85,0.2); }
-.toast.info { border-color: var(--primary); box-shadow: 0 0 15px rgba(138,43,226,0.2); }
-
-@keyframes slideInRight {
-    from { transform: translateX(120%); opacity: 0; }
-    to { transform: translateX(0); opacity: 1; }
-}
-@keyframes fadeOut {
-    to { opacity: 0; transform: translateY(-20px); }
-}
-
-/* --- CUSTOM MODAL (ZAMIAST CONFIRM) --- */
-.modal-overlay {
-    position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-    background: rgba(0,0,0,0.8); backdrop-filter: blur(5px);
-    display: flex; justify-content: center; align-items: center; z-index: 10000;
-    animation: fadeInModal 0.3s ease forwards;
-}
-.custom-modal {
-    background: var(--bg-dark); border: 2px solid var(--primary);
-    padding: 30px; border-radius: 15px; text-align: center; max-width: 400px;
-    box-shadow: 0 0 30px rgba(138,43,226,0.4);
-    transform: scale(0.8); animation: popModal 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-}
-.custom-modal h3 { color: var(--accent); margin-bottom: 15px; font-size: 1.8rem; }
-.custom-modal p { margin-bottom: 25px; color: #e0d8f0; font-size: 1.1rem; }
-.modal-buttons { display: flex; gap: 15px; justify-content: center; }
-.btn-cancel { border-color: #ff0055; color: #ff0055; }
-.btn-cancel:hover { background: rgba(255,0,85,0.2); box-shadow: 0 0 15px #ff0055; }
-.btn-confirm { border-color: #00ff88; color: #00ff88; }
-.btn-confirm:hover { background: rgba(0,255,136,0.2); box-shadow: 0 0 15px #00ff88; }
-
-@keyframes fadeInModal { from { opacity: 0; } to { opacity: 1; } }
-@keyframes popModal { to { transform: scale(1); } }
-
-/* --- CLICKER / KOPALNIA --- */
-.clicker-container {
-    display: flex; flex-direction: column; align-items: center; justify-content: center;
-    padding: 40px 0; position: relative;
-}
-.clicker-core {
-    font-size: 100px; width: 200px; height: 200px; background: rgba(255,255,255,0.05);
-    border: 3px dashed var(--primary); border-radius: 50%;
-    display: flex; justify-content: center; align-items: center;
-    cursor: pointer; user-select: none; transition: transform 0.1s;
-    box-shadow: 0 0 40px var(--glass-bg);
-}
-.clicker-core:active { transform: scale(0.9); border-color: var(--accent); }
-.floating-text {
-    position: absolute; color: #00ff88; font-weight: bold; font-size: 1.5rem;
-    pointer-events: none; text-shadow: 0 0 10px #00ff88;
-    animation: floatUp 1s ease-out forwards; z-index: 50;
-}
-@keyframes floatUp {
-    0% { transform: translateY(0) scale(1); opacity: 1; }
-    100% { transform: translateY(-100px) scale(1.5); opacity: 0; }
-}
-
-/* --- MOBILE UPGRADES --- */
-.menu-toggle {
-    display: none; font-size: 30px; cursor: pointer; color: var(--primary);
     transition: 0.3s;
 }
-
-@media (max-width: 768px) {
-    .menu-toggle { display: block; }
-    
-    .nav-links {
-        display: none; /* Domyślnie ukryte na telefonie */
-        flex-direction: column; width: 100%; position: absolute;
-        top: 60px; left: 0; background: rgba(0,0,0,0.95);
-        padding: 20px 0; border-bottom: 2px solid var(--primary);
-        box-shadow: 0 10px 30px rgba(0,0,0,0.8);
-    }
-    
-    .nav-links.active { display: flex; animation: slideDown 0.3s ease; }
-    .nav-links li { width: 100%; text-align: center; margin: 10px 0; }
-    .nav-links a { display: block; padding: 10px; font-size: 1.2rem; }
-    
-    #toast-container {
-        bottom: 20px; left: 50%; right: auto;
-        transform: translateX(-50%); width: 90%;
-    }
-    
-    .clicker-core { width: 150px; height: 150px; font-size: 70px; }
-}
-
-@keyframes slideDown {
-    from { opacity: 0; transform: translateY(-20px); }
-    to { opacity: 1; transform: translateY(0); }
-}
+.magic-btn:disabled { opacity: 0.5; cursor: not-allowed; }
