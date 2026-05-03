@@ -3,15 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HYPERCRAFT OFFICJALNA STRONA</title>
+    <title>HYPERCRAFT - PANEL GRACZA</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&family=Teko:wght@500;700&family=Cinzel:wght@700&family=Press+Start+2P&family=Share+Tech+Mono&display=swap" rel="stylesheet">
 </head>
 <body class="theme-default font-default">
 
     <div class="galaxy-bg"></div>
-    <div class="stars"></div>
-
     <div id="toast-container"></div>
 
     <nav id="navbar">
@@ -21,7 +19,6 @@
             <li><a href="#" onclick="switchTab('home')" class="nav-item active-nav">Centrum</a></li>
             <li><a href="#" onclick="switchTab('updates')" class="nav-item">Dziennik</a></li>
             <li><a href="#" onclick="switchTab('earn')" class="nav-item earn-nav">💎 Zarabiaj</a></li>
-            <li><a href="#" onclick="switchTab('farm')" class="nav-item">⛏️ Kopalnia</a></li>
             <li>
                 <a href="#" onclick="switchTab('economy')" class="nav-item coin-nav">
                     <div class="hc-bill-small">HC</div>
@@ -33,45 +30,30 @@
     </nav>
 
     <main id="main-content">
-        
         <section id="home" class="tab-content active-tab">
             <div class="hero-content">
-                <div class="galactic-core-container">
-                    <div class="galactic-core">
-                        <div class="core-ring ring-1"></div>
-                        <div class="core-ring ring-2"></div>
-                        <div class="core-ring ring-3"></div>
-                        <div class="core-center"></div>
-                    </div>
-                </div>
-
                 <h1 class="magic-text">HYPERCRAFT</h1>
-                <p class="subtitle">Graj na najlepszym serwerze minecraft</p>
+                <p class="subtitle">Witaj w panelu dowodzenia</p>
                 
                 <div class="server-status">
                     <div class="status-dot"></div>
-                    <span>Ładowanie graczy: <strong>Loading...</strong></span>
+                    <span>Status: <strong>Online</strong></span>
                 </div>
 
                 <div class="ip-container">
                     <button class="copy-ip-btn" onclick="copyIP()">
                         <span class="btn-text" id="ip-text">SKOPIUJ IP: <strong>hypercraft.ivhs.pl</strong></span>
-                        <div class="btn-glow"></div>
                     </button>
                 </div>
 
                 <div class="home-widgets">
                     <a href="#" class="widget glass-card">
                         <h3>💬 Discord</h3>
-                        <p>Dołącz do 5000+ graczy</p>
+                        <p>Społeczność graczy</p>
                     </a>
                     <a href="#" class="widget glass-card" onclick="switchTab('earn')">
                         <h3>🎁 Odbierz HC</h3>
-                        <p>Zdobądź darmową walutę</p>
-                    </a>
-                    <a href="#" class="widget glass-card" onclick="switchTab('farm')">
-                        <h3>⛏️ Kop HC</h3>
-                        <p>Wyklikaj własną fortunę</p>
+                        <p>Darmowe monety</p>
                     </a>
                 </div>
             </div>
@@ -79,140 +61,43 @@
 
         <section id="earn" class="tab-content">
             <h2 class="section-title slide-up">STREFA ZAROBKU</h2>
-            <p class="subtitle slide-up" style="animation-delay: 0.1s;">Zdobądź darmowe HyperCoins do wydania w Skarbcu!</p>
-
             <div class="earn-grid">
-                <div class="glass-card earn-card slide-up" style="animation-delay: 0.2s;">
+                <div class="glass-card earn-card slide-up">
                     <div class="earn-icon">⏱️</div>
                     <h3>Dzienny Przydział</h3>
-                    <p>Stały dochód energetyczny. Gwarantowane 50 HC.</p>
-                    <button id="claim-btn" class="magic-btn claim-btn" onclick="claimDaily()">Odbierz (50 HC)</button>
+                    <p>Gwarantowane 50 HC co 24h.</p>
+                    <button id="claim-btn" class="magic-btn" onclick="claimDaily()">Odbierz (50 HC)</button>
                     <p id="timer-text" class="timer-text"></p>
                 </div>
 
-                <div class="glass-card earn-card slide-up" style="animation-delay: 0.3s;">
+                <div class="glass-card earn-card slide-up" style="animation-delay: 0.1s;">
                     <div class="earn-icon">📦</div>
                     <h3>Kosmiczna Skrzynia</h3>
-                    <p>Szansa na znalezienie od 10 do 150 HC! Odnawia się co 4 godziny.</p>
-                    <button id="chest-btn" class="magic-btn chest-btn" onclick="openChest()">Otwórz Skrzynię</button>
+                    <p>Losowa nagroda (10-150 HC).</p>
+                    <button id="chest-btn" class="magic-btn" onclick="openChest()">Otwórz Skrzynię</button>
                     <p id="chest-timer-text" class="timer-text"></p>
                 </div>
             </div>
         </section>
 
-        <section id="farm" class="tab-content">
-            <h2 class="section-title slide-up">KOPALNIA HYPERCOINS</h2>
-            <p class="subtitle slide-up" style="animation-delay: 0.1s;">Klikaj w reaktor, aby wydobywać małe ilości HC!</p>
-            
-            <div class="clicker-container slide-up" style="animation-delay: 0.2s;">
-                <div class="clicker-core" onclick="mineHC(event)">
-                    💎
-                </div>
-                <p class="timer-text" style="margin-top: 20px;">Twój pot: +1 HC za kliknięcie</p>
-            </div>
-        </section>
-
         <section id="updates" class="tab-content">
             <h2 class="section-title slide-up">DZIENNIK ZMIAN</h2>
-            <div class="video-showcase slide-up" style="animation-delay: 0.1s;">
-                <h3 class="showcase-title">🔥 Najnowsza Aktualizacja: OFFICIAL RELEASE</h3>
-                <div class="video-wrapper">
-                    <iframe src="https://www.youtube.com/embed/TwójKodFilmu" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                </div>
-            </div>
-
-            <div class="updates-grid">
-                <div class="update-card slide-up" style="animation-delay: 0.2s;">
-                    <div class="update-date">Upd 0.0 | 16 Maj 2026</div>
-                    <h3>Nowy Sklep WWW</h3>
-                    <p>Zintegrowaliśmy HyperCoins z panelem gracza. Dodano nowe motywy i możliwość kupowania paczek zasobów!</p>
-                </div>
-                <div class="update-card slide-up" style="animation-delay: 0.3s;">
-                    <div class="update-date">Beta 1.0 | 16 Maj 2026</div>
-                    <h3>Wielki Start Serwera</h3>
-                    <p>Serwer wystartował. Dodaliśmy 5 nowych mechanik oraz naprawilismy ekonomię na spawnie.</p>
-                </div>
+            <div class="update-card slide-up">
+                <div class="update-date">03 Maj 2026</div>
+                <h3>Aktualizacja Panelu</h3>
+                <p>Usunięto kopalnię, poprawiono interfejs mobilny i system powiadomień.</p>
             </div>
         </section>
 
         <section id="economy" class="tab-content">
-            <h2 class="section-title slide-up">SKARBIEC HYPERCOINS</h2>
-            <div class="coin-dashboard slide-up" style="animation-delay: 0.1s;">
-                <div class="big-hc-bill"><span>HC</span></div>
+            <h2 class="section-title slide-up">SKARBIEC</h2>
+            <div class="coin-dashboard slide-up">
                 <div class="balance-info">
-                    <span>Dostępne Środki:</span>
+                    <span>Twój stan konta:</span>
                     <h2 id="main-balance">0</h2>
                 </div>
-                <p style="color: #bbb; font-size: 0.9rem;">Przejdź do zakładki "Zarabiaj", aby zdobyć więcej waluty.</p>
             </div>
-
-            <div class="shop-category slide-up" style="animation-delay: 0.2s;">
-                <h3 class="category-title">⭐ RANGI SERWEROWE</h3>
-                <div class="custom-shop">
-                    <div class="shop-item bundle-item" onclick="executePurchase(5000, 'Ranga VIP', () => showToast('Ranga VIP zakupiona! Aktywacja na serwerze.', 'success'))">
-                        <div class="bundle-icon" style="color: #ffd700; font-size: 2rem;">⭐</div>
-                        <h4 style="color: #ffd700;">Ranga VIP (30 Dni)</h4>
-                        <p class="bundle-desc">Dostęp do /kit vip, specjalny prefiks, x1.5 exp</p>
-                        <span class="price-tag">5000 HC</span>
-                    </div>
-                    <div class="shop-item bundle-item" onclick="executePurchase(12000, 'Ranga SVIP', () => showToast('Ranga SVIP zakupiona! Aktywacja na serwerze.', 'success'))">
-                        <div class="bundle-icon" style="color: #ff0055; font-size: 2rem;">💎</div>
-                        <h4 style="color: #ff0055;">Ranga SVIP (30 Dni)</h4>
-                        <p class="bundle-desc">Latanie na spawnie, /kit svip, kolorowy nick, x2 exp</p>
-                        <span class="price-tag">12000 HC</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="shop-category slide-up" style="animation-delay: 0.3s;">
-                <h3 class="category-title">🎨 MOTYWY WIZUALNE STRONY</h3>
-                <div class="custom-shop">
-                    <div class="shop-item" onclick="buyTheme('toxic', 300)">
-                        <div class="color-preview toxic" style="background: #00ff40; width: 40px; height: 40px; border-radius: 50%; margin-bottom: 10px; box-shadow: 0 0 15px #00ff40;"></div>
-                        <h4>Toksyczny</h4>
-                        <span class="price-tag">300 HC</span>
-                    </div>
-                    <div class="shop-item" onclick="buyTheme('blood', 500)">
-                        <div class="color-preview blood" style="background: #ff0000; width: 40px; height: 40px; border-radius: 50%; margin-bottom: 10px; box-shadow: 0 0 15px #ff0000;"></div>
-                        <h4>Krwawy Księżyc</h4>
-                        <span class="price-tag">500 HC</span>
-                    </div>
-                    <div class="shop-item" onclick="buyTheme('neon', 800)">
-                        <div class="color-preview neon" style="background: #00f3ff; width: 40px; height: 40px; border-radius: 50%; margin-bottom: 10px; box-shadow: 0 0 15px #00f3ff;"></div>
-                        <h4>Cyber Neon</h4>
-                        <span class="price-tag">800 HC</span>
-                    </div>
-                    <div class="shop-item void-premium" onclick="buyTheme('void', 1500)">
-                        <div class="void-preview" style="background: radial-gradient(circle, #bc13fe, #3a0066); width: 40px; height: 40px; border-radius: 50%; margin-bottom: 10px; box-shadow: 0 0 20px #bc13fe; animation: pulseGlow 2s infinite alternate;"></div>
-                        <div class="premium-badge" style="font-size: 0.7rem; color: #bc13fe; margin-bottom: 5px;">LEGENDARNY</div>
-                        <h4 class="void-title">Otchłań Galaktyki</h4>
-                        <span class="price-tag">1500 HC</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="shop-category slide-up" style="animation-delay: 0.4s;">
-                <h3 class="category-title">🔤 STYLE TEKSTU</h3>
-                <div class="custom-shop">
-                    <div class="shop-item font-preview cyber-font" onclick="buyFont('cyber', 400)">
-                        <h4 style="font-family: 'Share Tech Mono', monospace;">Haker Systemu</h4>
-                        <p>Terminalowy styl</p>
-                        <span class="price-tag">400 HC</span>
-                    </div>
-                    <div class="shop-item font-preview retro-font" onclick="buyFont('retro', 600)">
-                        <h4 style="font-family: 'Press Start 2P', cursive; font-size: 0.7rem;">Retro Gracz</h4>
-                        <p style="font-size: 0.7rem;">Styl 8-bit</p>
-                        <span class="price-tag">600 HC</span>
-                    </div>
-                    <div class="shop-item font-preview ancient-font" onclick="buyFont('ancient', 800)">
-                        <h4 style="font-family: 'Cinzel', serif;">Starożytny Zwój</h4>
-                        <p>Epicki i dumny</p>
-                        <span class="price-tag">800 HC</span>
-                    </div>
-                </div>
-            </div>
-
-        </section>
+            </section>
     </main>
 
     <script src="script.js"></script>
