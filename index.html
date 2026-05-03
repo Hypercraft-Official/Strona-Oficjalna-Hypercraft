@@ -2,102 +2,142 @@
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HYPERCRAFT - PANEL GRACZA</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>HYPERCRAFT | CENTRUM DOWODZENIA</title>
+    <!-- Czcionki Premium -->
+    <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@700&family=Outfit:wght@300;600;800&family=Share+Tech+Mono&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&family=Teko:wght@500;700&family=Cinzel:wght@700&family=Press+Start+2P&family=Share+Tech+Mono&display=swap" rel="stylesheet">
 </head>
-<body class="theme-default font-default">
+<body class="theme-default">
 
-    <div class="galaxy-bg"></div>
-    <div id="toast-container"></div>
+    <!-- System powiadomień HyperToast -->
+    <div id="hyper-notifier"></div>
 
-    <nav id="navbar">
+    <!-- Tło VFX -->
+    <div class="bg-vibe"></div>
+    <div class="scanlines"></div>
+
+    <!-- Header (Desktop + Balans) -->
+    <header class="main-header">
         <div class="logo">HYPER<span>CRAFT</span></div>
-        <div class="menu-toggle" onclick="toggleMenu()">☰</div>
-        <ul class="nav-links" id="nav-links">
-            <li><a href="#" onclick="switchTab('home')" class="nav-item active-nav">Centrum</a></li>
-            <li><a href="#" onclick="switchTab('updates')" class="nav-item">Dziennik</a></li>
-            <li><a href="#" onclick="switchTab('earn')" class="nav-item earn-nav">💎 Zarabiaj</a></li>
-            <li>
-                <a href="#" onclick="switchTab('economy')" class="nav-item coin-nav">
-                    <div class="hc-bill-small">HC</div>
-                    <span id="nav-balance">0</span>
-                </a>
-            </li>
-            <li><a href="https://hypercraft.ivhs.pl" target="_blank" class="shop-btn">Sklep WWW</a></li>
-        </ul>
+        <div class="header-right">
+            <div class="wallet-pill" onclick="switchTab('economy')">
+                <div class="coin-icon"></div>
+                <span id="nav-balance">0</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Nawigacja Dolna (Idealna na telefon) -->
+    <nav class="mobile-nav">
+        <div class="nav-slot active-slot" onclick="switchTab('home', this)">
+            <span class="icon">🏠</span>
+            <span class="label">Centrum</span>
+        </div>
+        <div class="nav-slot" onclick="switchTab('earn', this)">
+            <span class="icon">💎</span>
+            <span class="label">Zarabiaj</span>
+        </div>
+        <div class="nav-slot" onclick="switchTab('economy', this)">
+            <span class="icon">🛒</span>
+            <span class="label">Sklep</span>
+        </div>
+        <div class="nav-slot" onclick="switchTab('updates', this)">
+            <span class="icon">📜</span>
+            <span class="label">News</span>
+        </div>
     </nav>
 
-    <main id="main-content">
+    <!-- KONTENER GŁÓWNY -->
+    <main id="content-scroller">
+        
+        <!-- SEKCJA: HOME -->
         <section id="home" class="tab-content active-tab">
-            <div class="hero-content">
-                <h1 class="magic-text">HYPERCRAFT</h1>
-                <p class="subtitle">Witaj w panelu dowodzenia</p>
+            <div class="hero-box">
+                <div class="core-animation">
+                    <div class="ring"></div>
+                    <div class="core-glow"></div>
+                </div>
+                <h1 class="glitch-text">HYPERCRAFT</h1>
+                <p class="hero-subtitle">NAJLEPSZY SURVIVAL W POLSCE</p>
                 
-                <div class="server-status">
-                    <div class="status-dot"></div>
-                    <span>Status: <strong>Online</strong></span>
+                <div class="ip-card" onclick="copyIP()">
+                    <div class="ip-status">● SERWER AKTYWNY</div>
+                    <div class="ip-address" id="ip-display">HYPERCRAFT.IVHS.PL</div>
+                    <div class="ip-hint">DOTKNIJ, ABY SKOPIOWAĆ</div>
                 </div>
 
-                <div class="ip-container">
-                    <button class="copy-ip-btn" onclick="copyIP()">
-                        <span class="btn-text" id="ip-text">SKOPIUJ IP: <strong>hypercraft.ivhs.pl</strong></span>
-                    </button>
-                </div>
-
-                <div class="home-widgets">
-                    <a href="#" class="widget glass-card">
-                        <h3>💬 Discord</h3>
-                        <p>Społeczność graczy</p>
-                    </a>
-                    <a href="#" class="widget glass-card" onclick="switchTab('earn')">
-                        <h3>🎁 Odbierz HC</h3>
-                        <p>Darmowe monety</p>
-                    </a>
+                <div class="quick-stats">
+                    <div class="stat"><span class="val">1.20.4</span><span class="lab">Wersja</span></div>
+                    <div class="stat"><span class="val">14ms</span><span class="lab">Ping</span></div>
+                    <div class="stat"><span class="val">+500</span><span class="lab">Graczy</span></div>
                 </div>
             </div>
         </section>
 
+        <!-- SEKCJA: ZARABIANIE -->
         <section id="earn" class="tab-content">
-            <h2 class="section-title slide-up">STREFA ZAROBKU</h2>
+            <h2 class="section-title">GENERATOR ENERGII</h2>
             <div class="earn-grid">
-                <div class="glass-card earn-card slide-up">
-                    <div class="earn-icon">⏱️</div>
-                    <h3>Dzienny Przydział</h3>
-                    <p>Gwarantowane 50 HC co 24h.</p>
-                    <button id="claim-btn" class="magic-btn" onclick="claimDaily()">Odbierz (50 HC)</button>
-                    <p id="timer-text" class="timer-text"></p>
+                <div class="hyper-card gold-border" onclick="claimDaily()">
+                    <div class="card-icon">⚡</div>
+                    <h3>DZIENNY BONUS</h3>
+                    <p>Zasilenie Twojego portfela o 50 HC</p>
+                    <div id="timer-daily" class="status-tag">GOTOWE</div>
                 </div>
 
-                <div class="glass-card earn-card slide-up" style="animation-delay: 0.1s;">
-                    <div class="earn-icon">📦</div>
-                    <h3>Kosmiczna Skrzynia</h3>
-                    <p>Losowa nagroda (10-150 HC).</p>
-                    <button id="chest-btn" class="magic-btn" onclick="openChest()">Otwórz Skrzynię</button>
-                    <p id="chest-timer-text" class="timer-text"></p>
+                <div class="hyper-card mystery-border" onclick="openChest()">
+                    <div class="card-icon">🎁</div>
+                    <h3>LUCKY BOX</h3>
+                    <p>Losowa nagroda: 10 - 200 HC</p>
+                    <div id="timer-chest" class="status-tag">GOTOWE</div>
                 </div>
             </div>
         </section>
 
-        <section id="updates" class="tab-content">
-            <h2 class="section-title slide-up">DZIENNIK ZMIAN</h2>
-            <div class="update-card slide-up">
-                <div class="update-date">03 Maj 2026</div>
-                <h3>Aktualizacja Panelu</h3>
-                <p>Usunięto kopalnię, poprawiono interfejs mobilny i system powiadomień.</p>
-            </div>
-        </section>
-
+        <!-- SEKCJA: SKLEP -->
         <section id="economy" class="tab-content">
-            <h2 class="section-title slide-up">SKARBIEC</h2>
-            <div class="coin-dashboard slide-up">
-                <div class="balance-info">
-                    <span>Twój stan konta:</span>
-                    <h2 id="main-balance">0</h2>
+            <h2 class="section-title">SKARBIEC HC</h2>
+            <div class="shop-grid">
+                <!-- Przedmioty -->
+                <div class="shop-item" onclick="buyItem('Ranga VIP', 5000)">
+                    <div class="item-visual vip-glow">VIP</div>
+                    <div class="item-meta">
+                        <h4>RANGA VIP</h4>
+                        <span class="price-tag">5000 HC</span>
+                    </div>
+                </div>
+
+                <div class="shop-item" onclick="buyItem('Ranga SVIP', 12000)">
+                    <div class="item-visual svip-glow">SVIP</div>
+                    <div class="item-meta">
+                        <h4>RANGA SVIP</h4>
+                        <span class="price-tag">12000 HC</span>
+                    </div>
+                </div>
+
+                <div class="shop-item" onclick="buyTheme('neon', 800)">
+                    <div class="item-visual neon-glow">🎨</div>
+                    <div class="item-meta">
+                        <h4>MOTYW NEON</h4>
+                        <span class="price-tag">800 HC</span>
+                    </div>
                 </div>
             </div>
-            </section>
+        </section>
+
+        <!-- SEKCJA: NEWS -->
+        <section id="updates" class="tab-content">
+            <h2 class="section-title">DZIENNIK ZMIAN</h2>
+            <div class="news-list">
+                <div class="news-entry">
+                    <span class="news-date">03.05.2026</span>
+                    <h3>Wielka Aktualizacja 2.0</h3>
+                    <p>Wprowadziliśmy nowy system HyperCoins oraz mobilne Centrum Dowodzenia.</p>
+                </div>
+            </div>
+        </section>
+
     </main>
 
     <script src="script.js"></script>
