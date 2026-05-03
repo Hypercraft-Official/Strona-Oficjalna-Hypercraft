@@ -1,175 +1,453 @@
 <!DOCTYPE html>
+
 <html lang="pl">
+
 <head>
+
     <meta charset="UTF-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>HYPERCRAFT OFFICJALNA STRONA</title>
+
     <link rel="stylesheet" href="style.css">
-    <!-- Podstawowe i sklepowe czcionki z Google Fonts -->
+
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&family=Teko:wght@500;700&family=Cinzel:wght@700&family=Press+Start+2P&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+
 </head>
+
 <body class="theme-default font-default">
 
+
+
     <!-- Efekty tła -->
+
     <div class="galaxy-bg"></div>
+
     <div class="stars"></div>
 
+
+
     <!-- NAWIGACJA -->
+
     <nav id="navbar">
+
         <div class="logo">HYPER<span>CRAFT</span></div>
+
         <ul class="nav-links">
+
             <li><a href="#" onclick="switchTab('home')" class="nav-item active-nav">Centrum</a></li>
+
             <li><a href="#" onclick="switchTab('updates')" class="nav-item">Dziennik</a></li>
+
+            <li><a href="#" onclick="switchTab('earn')" class="nav-item earn-nav">💎 Zarabiaj</a></li>
+
             <li>
+
                 <a href="#" onclick="switchTab('economy')" class="nav-item coin-nav">
+
                     <div class="hc-bill-small">HC</div>
+
                     <span id="nav-balance">0</span>
+
                 </a>
+
             </li>
+
             <li><a href="https://hypercraft.ivhs.pl" target="_blank" class="shop-btn">Sklep WWW</a></li>
+
         </ul>
+
     </nav>
 
+
+
     <!-- KONTENER GŁÓWNY -->
+
     <main id="main-content">
+
         
+
         <!-- SEKCJA: START (CENTRUM) -->
+
         <section id="home" class="tab-content active-tab">
+
             <div class="hero-content">
-                <h1 class="magic-text">HYPERCRAFT</h1>
-                <p class="subtitle">Graj na najlepszym serwerze minecraft</p>
+
                 
-                <div class="server-status">
-                    <div class="status-dot"></div>
-                    <span>Ładowanie graczy: <strong>Loading...</strong></span>
+
+                <!-- Animowany Rdzeń Galaktyczny (NOWOŚĆ) -->
+
+                <div class="galactic-core-container">
+
+                    <div class="galactic-core">
+
+                        <div class="core-ring ring-1"></div>
+
+                        <div class="core-ring ring-2"></div>
+
+                        <div class="core-ring ring-3"></div>
+
+                        <div class="core-center"></div>
+
+                    </div>
+
                 </div>
+
+
+
+                <h1 class="magic-text">HYPERCRAFT</h1>
+
+                <p class="subtitle">Graj na najlepszym serwerze minecraft</p>
+
+                
+
+                <div class="server-status">
+
+                    <div class="status-dot"></div>
+
+                    <span>Ładowanie graczy: <strong>Loading...</strong></span>
+
+                </div>
+
+
 
                 <div class="ip-container">
+
                     <button class="copy-ip-btn" onclick="copyIP()">
+
                         <span class="btn-text" id="ip-text">SKOPIUJ IP: <strong>hypercraft.ivhs.pl</strong></span>
+
                         <div class="btn-glow"></div>
+
                     </button>
+
                 </div>
+
+
+
+                <!-- Widgety informacyjne na dole ekranu -->
+
+                <div class="home-widgets">
+
+                    <a href="#" class="widget glass-card">
+
+                        <h3>💬 Discord</h3>
+
+                        <p>Dołącz do 5000+ graczy</p>
+
+                    </a>
+
+                    <a href="#" class="widget glass-card" onclick="switchTab('earn')">
+
+                        <h3>🎁 Odbierz HC</h3>
+
+                        <p>Zdobądź darmową walutę</p>
+
+                    </a>
+
+                    <a href="#" class="widget glass-card">
+
+                        <h3>🗺️ Mapa WWW</h3>
+
+                        <p>Zobacz świat na żywo</p>
+
+                    </a>
+
+                </div>
+
+
+
             </div>
 
-            <!-- Geometria tła na ekranie głównym -->
+
+
             <div class="floating-cube cube-1"></div>
+
             <div class="floating-cube cube-2"></div>
-            <div class="floating-ring"></div>
+
         </section>
+
+
+
+        <!-- SEKCJA: ZARABIANIE (NOWA ZAKŁADKA) -->
+
+        <section id="earn" class="tab-content">
+
+            <h2 class="section-title slide-up">STREFA ZAROBKU</h2>
+
+            <p class="subtitle slide-up" style="animation-delay: 0.1s;">Zdobądź darmowe HyperCoins do wydania w Skarbcu!</p>
+
+
+
+            <div class="earn-grid">
+
+                <!-- Codzienny Odbiór -->
+
+                <div class="glass-card earn-card slide-up" style="animation-delay: 0.2s;">
+
+                    <div class="earn-icon">⏱️</div>
+
+                    <h3>Dzienny Przydział</h3>
+
+                    <p>Stały dochód energetyczny. Gwarantowane 50 HC.</p>
+
+                    <button id="claim-btn" class="magic-btn claim-btn" onclick="claimDaily()">Odbierz (50 HC)</button>
+
+                    <p id="timer-text" class="timer-text"></p>
+
+                </div>
+
+
+
+                <!-- Skrzynia Losowa (NOWOŚĆ) -->
+
+                <div class="glass-card earn-card slide-up" style="animation-delay: 0.3s;">
+
+                    <div class="earn-icon">📦</div>
+
+                    <h3>Kosmiczna Skrzynia</h3>
+
+                    <p>Szansa na znalezienie od 10 do 150 HC! Odnawia się co 4 godziny.</p>
+
+                    <button id="chest-btn" class="magic-btn chest-btn" onclick="openChest()">Otwórz Skrzynię</button>
+
+                    <p id="chest-timer-text" class="timer-text"></p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
 
         <!-- SEKCJA: AKTUALIZACJE (DZIENNIK) -->
+
         <section id="updates" class="tab-content">
+
             <h2 class="section-title slide-up">DZIENNIK ZMIAN</h2>
+
             
-            <!-- Wyróżniony film z YouTube -->
+
             <div class="video-showcase slide-up" style="animation-delay: 0.1s;">
+
                 <h3 class="showcase-title">🔥 Najnowsza Aktualizacja: OFFICIAL RELEASE</h3>
+
                 <div class="video-wrapper">
-                    <!-- Zmień link w src na embed swojego filmu z YT -->
+
                     <iframe src="https://www.youtube.com/embed/TwójKodFilmu" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
                 </div>
+
             </div>
+
+
 
             <div class="updates-grid">
+
                 <div class="update-card slide-up" style="animation-delay: 0.2s;">
+
                     <div class="update-date">Upd 0.0 | 16 Maj 2026</div>
+
                     <h3>Nowy Sklep WWW</h3>
+
                     <p>Zintegrowaliśmy HyperCoins z panelem gracza. Dodano nowe motywy i możliwość kupowania paczek zasobów!</p>
+
                 </div>
+
                 <div class="update-card slide-up" style="animation-delay: 0.3s;">
+
                     <div class="update-date">Beta 1.0 | 16 Maj 2026</div>
+
                     <h3>Wielki Start Serwera</h3>
+
                     <p>Serwer wystartował. Dodaliśmy 5 nowych mechanik oraz naprawilismy ekonomię na spawnie.</p>
+
                 </div>
-                <div class="update-card slide-up" style="animation-delay: 0.4s;">
-                    <div class="update-date">Hotfix 1.0.0 | 16 Maj 2026</div>
-                    <h3>Nowości Serwerowe</h3>
-                    <p>Naprawiono błedy i bugi, zwiększono wytrzymałość Galaktycznego Haku o 70%.</p>
-                </div>
+
             </div>
+
         </section>
+
+
 
         <!-- SEKCJA: EKONOMIA / SKLEP -->
+
         <section id="economy" class="tab-content">
+
             <h2 class="section-title slide-up">SKARBIEC HYPERCOINS</h2>
+
             
-            <!-- Portfel -->
+
             <div class="coin-dashboard slide-up" style="animation-delay: 0.1s;">
+
                 <div class="big-hc-bill">
+
                     <span>HC</span>
+
                 </div>
+
                 <div class="balance-info">
+
                     <span>Dostępne Środki:</span>
+
                     <h2 id="main-balance">0</h2>
+
                 </div>
-                <button id="claim-btn" class="magic-btn claim-btn" onclick="claimDaily()">
-                    Odbierz Hypercoiny (50 HC)
-                </button>
-                <p id="timer-text" class="timer-text"></p>
+
+                <p style="color: #bbb; font-size: 0.9rem;">Przejdź do zakładki "Zarabiaj", aby zdobyć więcej waluty.</p>
+
             </div>
 
-            <!-- SKLEP: PAKIETY -->
+
+
+            <!-- SKLEP: RANGI (NOWOŚĆ) -->
+
             <div class="shop-category slide-up" style="animation-delay: 0.2s;">
-                <h3 class="category-title">🔥 ZESTAWY (BUNDLES)</h3>
+
+                <h3 class="category-title">⭐ RANGI SERWEROWE</h3>
+
                 <div class="custom-shop">
-                    <div class="shop-item bundle-item" onclick="buyBundle('overlord', 2000)">
-                        <div class="bundle-icon">👑</div>
-                        <h4>Pakiet Władcy Endu</h4>
-                        <p class="bundle-desc">Motyw VOID + Czcionka Starożytna</p>
-                        <span class="price-tag">2000 HC</span>
+
+                    <div class="shop-item bundle-item" onclick="executePurchase(5000, 'Ranga VIP', () => alert('Ranga VIP zakupiona! Aktywacja na serwerze.'))">
+
+                        <div class="bundle-icon" style="color: #ffd700;">⭐</div>
+
+                        <h4 style="color: #ffd700;">Ranga VIP (30 Dni)</h4>
+
+                        <p class="bundle-desc">Dostęp do /kit vip, specjalny prefiks, x1.5 exp</p>
+
+                        <span class="price-tag">5000 HC</span>
+
                     </div>
+
+                    <div class="shop-item bundle-item" onclick="executePurchase(12000, 'Ranga SVIP', () => alert('Ranga SVIP zakupiona! Aktywacja na serwerze.'))">
+
+                        <div class="bundle-icon" style="color: #ff0055;">💎</div>
+
+                        <h4 style="color: #ff0055;">Ranga SVIP (30 Dni)</h4>
+
+                        <p class="bundle-desc">Latnie na spawnie, /kit svip, kolorowy nick, x2 exp</p>
+
+                        <span class="price-tag">12000 HC</span>
+
+                    </div>
+
                 </div>
+
             </div>
+
+
 
             <!-- SKLEP: MOTYWY -->
+
             <div class="shop-category slide-up" style="animation-delay: 0.3s;">
-                <h3 class="category-title">🎨 MOTYWY WIZUALNE</h3>
+
+                <h3 class="category-title">🎨 MOTYWY WIZUALNE STRONY</h3>
+
                 <div class="custom-shop">
+
                     <div class="shop-item" onclick="buyTheme('toxic', 300)">
+
                         <div class="color-preview toxic" style="background: #00ff40; width: 40px; height: 40px; border-radius: 50%; margin-bottom: 10px; box-shadow: 0 0 15px #00ff40;"></div>
+
                         <h4>Toksyczny</h4>
+
                         <span class="price-tag">300 HC</span>
+
                     </div>
+
                     <div class="shop-item" onclick="buyTheme('blood', 500)">
+
                         <div class="color-preview blood" style="background: #ff0000; width: 40px; height: 40px; border-radius: 50%; margin-bottom: 10px; box-shadow: 0 0 15px #ff0000;"></div>
+
                         <h4>Krwawy Księżyc</h4>
+
                         <span class="price-tag">500 HC</span>
+
                     </div>
-                    <div class="shop-item void-premium" onclick="buyTheme('void', 1200)">
+
+                    <div class="shop-item" onclick="buyTheme('neon', 800)">
+
+                        <div class="color-preview neon" style="background: #00f3ff; width: 40px; height: 40px; border-radius: 50%; margin-bottom: 10px; box-shadow: 0 0 15px #00f3ff;"></div>
+
+                        <h4>Cyber Neon</h4>
+
+                        <span class="price-tag">800 HC</span>
+
+                    </div>
+
+                    <div class="shop-item void-premium" onclick="buyTheme('void', 1500)">
+
                         <div class="void-preview" style="background: radial-gradient(circle, #bc13fe, #3a0066); width: 40px; height: 40px; border-radius: 50%; margin-bottom: 10px; box-shadow: 0 0 20px #bc13fe; animation: pulseGlow 2s infinite alternate;"></div>
+
                         <div class="premium-badge" style="font-size: 0.7rem; color: #bc13fe; margin-bottom: 5px;">LEGENDARNY</div>
+
                         <h4 class="void-title">Otchłań Galaktyki</h4>
-                        <span class="price-tag">1200 HC</span>
+
+                        <span class="price-tag">1500 HC</span>
+
                     </div>
+
                 </div>
+
             </div>
+
+
 
             <!-- SKLEP: CZCIONKI -->
+
             <div class="shop-category slide-up" style="animation-delay: 0.4s;">
-                <h3 class="category-title">🔤 STYLE TEKSTU (CZCIONKI)</h3>
+
+                <h3 class="category-title">🔤 STYLE TEKSTU</h3>
+
                 <div class="custom-shop">
+
                     <div class="shop-item font-preview cyber-font" onclick="buyFont('cyber', 400)">
+
                         <h4 style="font-family: 'Share Tech Mono', monospace;">Haker Systemu</h4>
+
                         <p>Terminalowy styl</p>
+
                         <span class="price-tag">400 HC</span>
+
                     </div>
+
                     <div class="shop-item font-preview retro-font" onclick="buyFont('retro', 600)">
+
                         <h4 style="font-family: 'Press Start 2P', cursive; font-size: 0.7rem;">Retro Gracz</h4>
+
                         <p style="font-size: 0.7rem;">Styl 8-bit</p>
+
                         <span class="price-tag">600 HC</span>
+
                     </div>
+
                     <div class="shop-item font-preview ancient-font" onclick="buyFont('ancient', 800)">
+
                         <h4 style="font-family: 'Cinzel', serif;">Starożytny Zwój</h4>
+
                         <p>Epicki i dumny</p>
+
                         <span class="price-tag">800 HC</span>
+
                     </div>
+
                 </div>
+
             </div>
 
+
+
         </section>
+
     </main>
 
+
+
     <script src="script.js"></script>
+
 </body>
+
 </html>
