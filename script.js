@@ -6,23 +6,12 @@ let currentFont = localStorage.getItem('hc_font') || 'default';
 
 const CLAIM_COOLDOWN = 24 * 60 * 60 * 1000;
 
-// --- ZMIENNE MINI-GRY (RDZEŃ) ---
-let coreStability = 100;
-let coreInterval;
-
 // --- INICJALIZACJA ---
 document.addEventListener("DOMContentLoaded", () => {
     updateUI();
-    // Jeśli miałeś funkcje applyTheme i applyFont zostaw je, ja je na chwilę zakomentowałem bo ich nie wysłałeś
-    // applyTheme(currentTheme); 
-    // applyFont(currentFont);
+    applyTheme(currentTheme);
+    applyFont(currentFont);
     setInterval(updateTimer, 1000);
-    
-    // Start systemu ładowania (animacja kropek na stronie startowej)
-    startLoadingAnimation();
-    
-    // Start systemu degradacji rdzenia (Mini-gra)
-    startCoreSystem();
 });
 
 // --- MENU MOBILNE ---
@@ -39,68 +28,10 @@ function switchTab(tabId) {
     document.getElementById(tabId).classList.add('active-tab');
     event.currentTarget.classList.add('active-nav');
 
+    // Automatycznie zamykaj menu na telefonach po kliknięciu
     if(window.innerWidth <= 768) {
         document.querySelector('.hamburger').classList.remove('active');
         document.querySelector('.nav-links').classList.remove('active-menu');
-    }
-}
-
-// --- SYSTEM ŁADOWANIA (ANIMACJA KROPEK) ---
-function startLoadingAnimation() {
-    let dotCount = 0;
-    setInterval(() => {
-        const loader = document.getElementById('loading-dots');
-        if(loader) {
-            dotCount = (dotCount + 1) % 4; // od 0 do 3 kropek
-            loader.innerText = 'Ładowanie' + '.'.repeat(dotCount);
-        }
-    }, 500);
-}
-
-// --- MINI-GRA (RDZEŃ) ---
-function startCoreSystem() {
-    // Rdzeń traci stabilność co sekundę
-    coreInterval = setInterval(() => {
-        coreStability -= 1.5; // Szybkość spadku stabilności
-        if (coreStability < 0) coreStability = 0;
-        updateCoreUI();
-    }, 1000);
-}
-
-function stabilizeCore() {
-    // Dodaje stabilność po kliknięciu
-    coreStability += 8;
-    if (coreStability > 100) coreStability = 100;
-    
-    // Szansa na zdobycie darmowego HyperCoina z reaktora (np. 10% szans)
-    if(Math.random() < 0.10) {
-        balance += 1;
-        saveData();
-        updateUI();
-        showToast("⚡ Rdzeń wygenerował 1 HC!", "info");
-    }
-    
-    updateCoreUI();
-}
-
-function updateCoreUI() {
-    const fill = document.getElementById('core-stability-fill');
-    const text = document.getElementById('stability-text');
-    if(!fill || !text) return;
-    
-    fill.style.width = coreStability + '%';
-    text.innerText = Math.floor(coreStability) + '%';
-    
-    // Zmiana kolorów zależnie od stabilności
-    if(coreStability > 60) {
-        fill.style.backgroundColor = '#00ff88'; // Zielony - stabilnie
-        fill.style.boxShadow = '0 0 20px #00ff88';
-    } else if (coreStability > 25) {
-        fill.style.backgroundColor = '#ffaa00'; // Pomarańczowy - ostrzeżenie
-        fill.style.boxShadow = '0 0 20px #ffaa00';
-    } else {
-        fill.style.backgroundColor = '#ff0000'; // Czerwony - krytyczny
-        fill.style.boxShadow = '0 0 20px #ff0000';
     }
 }
 
@@ -113,9 +44,10 @@ function showToast(message, type = 'info') {
     
     container.appendChild(toast);
     
+    // Usuń po 3.5 sekundach
     setTimeout(() => {
         toast.classList.add('fade-out');
-        setTimeout(() => toast.remove(), 400); 
+        setTimeout(() => toast.remove(), 300); // Po animacji CSS
     }, 3500);
 }
 
@@ -129,6 +61,7 @@ function showConfirm(message, onConfirmCallback) {
     textElem.innerText = message;
     overlay.classList.remove('hidden');
 
+    // Kasujemy poprzednie zdarzenia kliknięcia, aby uniknąć błędów
     btnYes.onclick = null;
     btnNo.onclick = null;
 
@@ -144,14 +77,14 @@ function showConfirm(message, onConfirmCallback) {
 
 // --- KOPIOWANIE IP ---
 function copyIP() {
-    // Nie mamy IP więc wrzucamy akcję Wejścia
-    showToast("Rozpoczynanie procedury logowania do systemu...", "info");
-}
-
-// --- ZAPISYWANIE DANYCH ---
-function saveData() {
-    localStorage.setItem('hc_balance', balance);
-    localStorage.setItem('hc_last_claim', lastClaim);
+    navigator.clipboard.writeText("hypercraft.ivhs.pl").then(() => {
+        const btnText = document.getElementById('ip-text');
+        btnText.innerHTML = "<strong>IP SKOPIOWANE!</strong>";
+        showToast("Skopiowano IP serwera do schowka!", "success");
+        setTimeout(() => {
+            btnText.innerHTML = "SKOPIUJ IP: <strong>hypercraft.ivhs.pl</strong>";
+        }, 2000);
+    });
 }
 
 // --- EKONOMIA (HYPERCOINS) ---
@@ -186,15 +119,81 @@ function updateTimer() {
     if (timeLeft <= 0) {
         btn.disabled = false;
         btn.innerText = "INICJUJ TRANSFER (50 HC)";
-        timerText.innerText = "Dostępne teraz!";
+        timerText.innerText = "Gotowość systemów: 100%";
+        timerText.style.color = "#00ff88";
     } else {
         btn.disabled = true;
-        btn.innerText = "ŁADOWANIE TRANSFERU";
+        btn.innerText = "ŁADOWANIE GENERATORA";
+        timerText.style.color = "#888";
         
-        // Zwykła matematyka na godziny/minuty/sekundy
-        let h = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        let m = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
-        let s = Math.floor((timeLeft % (1000 * 60)) / 1000);
-        timerText.innerText = `Odnawia się za: ${h}h ${m}m ${s}s`;
+        const h = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const m = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+        const s = Math.floor((timeLeft % (1000 * 60)) / 1000);
+        
+        timerText.innerText = `Pozostały czas: ${h}h ${m}m ${s}s`;
     }
+}
+
+function saveData() {
+    localStorage.setItem('hc_balance', balance);
+    localStorage.setItem('hc_last_claim', lastClaim);
+    localStorage.setItem('hc_theme', currentTheme);
+    localStorage.setItem('hc_font', currentFont);
+}
+
+// --- SYSTEM ZAKUPÓW ---
+function applyTheme(theme) {
+    document.body.classList.remove('theme-toxic', 'theme-blood', 'theme-void');
+    if (theme !== 'default') document.body.classList.add('theme-' + theme);
+    currentTheme = theme;
+}
+
+function applyFont(font) {
+    document.body.classList.remove('font-cyber', 'font-retro', 'font-ancient');
+    if (font !== 'default') document.body.classList.add('font-' + font);
+    currentFont = font;
+}
+
+function executePurchase(price, itemName, successCallback) {
+    if (balance >= price) {
+        showConfirm(`Zatwierdź transfer: ${price} HC za [${itemName}]?`, () => {
+            balance -= price;
+            successCallback();
+            saveData();
+            updateUI();
+        });
+    } else {
+        showToast(`Błąd: Niewystarczająca ilość energii HC. Brakuje ${price - balance} HC.`, "error");
+    }
+}
+
+function buyTheme(theme, price) {
+    if (currentTheme === theme) return showToast("Ten motyw jest już aktywny.", "info");
+    executePurchase(price, `Motyw: ${theme}`, () => {
+        applyTheme(theme);
+        if(theme === 'void') {
+            showToast("CAŁUN PUSTKI ZAAKCEPTOWAŁ CIĘ.", "success");
+        } else {
+            showToast("Zmiana wizualna powiodła się.", "success");
+        }
+    });
+}
+
+function buyFont(font, price) {
+    if (currentFont === font) return showToast("Ten styl czcionki jest już aktywny.", "info");
+    executePurchase(price, `Czcionka: ${font}`, () => {
+        applyFont(font);
+        showToast("Pomyślnie zaktualizowano interfejs tekstowy.", "success");
+    });
+}
+
+function buyBundle(bundle, price) {
+    if (currentTheme === 'void' && currentFont === 'ancient') {
+        return showToast("Masz już główne elementy tego pakietu!", "info");
+    }
+    executePurchase(price, "Pakiet Władcy Endu", () => {
+        applyTheme('void');
+        applyFont('ancient');
+        showToast("Pakiet aktywowany! Zgłoś się po odbiór rangi.", "success");
+    });
 }
