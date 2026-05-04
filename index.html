@@ -5,17 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HYPERCRAFT OFICJALNA STRONA</title>
     <link rel="stylesheet" href="style.css">
+    <!-- Podstawowe i sklepowe czcionki z Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&family=Teko:wght@500;700&family=Cinzel:wght@700&family=Press+Start+2P&family=Share+Tech+Mono&display=swap" rel="stylesheet">
 </head>
 <body class="theme-default font-default">
 
+    <!-- Efekty tła -->
     <div class="galaxy-bg"></div>
     <div class="stars"></div>
-    <div class="stars2"></div>
 
+    <!-- NAWIGACJA -->
     <nav id="navbar">
         <div class="logo">HYPER<span>CRAFT</span></div>
         
+        <!-- Przycisk menu dla telefonów -->
         <div class="hamburger" onclick="toggleMenu()">
             <div class="bar"></div>
             <div class="bar"></div>
@@ -25,48 +28,54 @@
         <ul class="nav-links">
             <li><a href="#" onclick="switchTab('home')" class="nav-item active-nav">Centrum</a></li>
             <li><a href="#" onclick="switchTab('updates')" class="nav-item">Dziennik</a></li>
-            <li><a href="#" onclick="switchTab('minigame')" class="nav-item">Rdzeń</a></li>
+            <li><a href="#" onclick="switchTab('ranking')" class="nav-item">Ranking</a></li>
             <li>
                 <a href="#" onclick="switchTab('economy')" class="nav-item coin-nav">
                     <div class="hc-bill-small">HC</div>
                     <span id="nav-balance">0</span>
                 </a>
             </li>
-            <li><a href="https://hypercraft.ivhs.pl" target="_blank" class="shop-btn magic-btn pulse-anim">Sklep WWW</a></li>
+            <li><a href="https://hypercraft.ivhs.pl" target="_blank" class="shop-btn">Sklep WWW</a></li>
         </ul>
     </nav>
 
+    <!-- KONTENER GŁÓWNY -->
     <main id="main-content">
         
+        <!-- SEKCJA: START (CENTRUM) -->
         <section id="home" class="tab-content active-tab">
             <div class="hero-content">
                 <h1 class="magic-text">HYPERCRAFT</h1>
-                <p class="subtitle">Przekrocz granice możliwości w najlepszym świecie</p>
+                <p class="subtitle">Przekrocz granice możliwości w najlepszym świecie Minecraft</p>
                 
                 <div class="server-status">
-                    <div class="loader-spinner"></div>
-                    <span>Inicjalizacja systemów... <strong style="color: var(--accent);" id="loading-dots">Ładowanie</strong></span>
+                    <div class="status-dot"></div>
+                    <span>Status: <strong style="color: #00ff88;">ONLINE</strong></span>
+                    <span class="players-online">Gracze: <strong>142/500</strong></span>
                 </div>
 
                 <div class="ip-container">
                     <button class="copy-ip-btn" onclick="copyIP()">
-                        <span class="btn-text" id="ip-text">WEJDŹ DO SYSTEMU</span>
+                        <span class="btn-text" id="ip-text">SKOPIUJ IP: <strong>hypercraft.ivhs.pl</strong></span>
                         <div class="btn-glow"></div>
                     </button>
                 </div>
             </div>
 
+            <!-- Geometria tła na ekranie głównym -->
             <div class="floating-cube cube-1"></div>
             <div class="floating-cube cube-2"></div>
             <div class="floating-ring"></div>
         </section>
 
+        <!-- SEKCJA: AKTUALIZACJE (DZIENNIK) -->
         <section id="updates" class="tab-content">
             <h2 class="section-title">DZIENNIK ZMIAN</h2>
             
             <div class="video-showcase">
                 <h3 class="showcase-title">🔥 Najnowsza Aktualizacja: OFFICIAL RELEASE</h3>
                 <div class="video-wrapper">
+                    <!-- Możesz tu wrzucić link do trailera z YT -->
                     <iframe src="https://www.youtube.com/embed/TwójKodFilmu" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                 </div>
             </div>
@@ -79,37 +88,46 @@
                 </div>
                 <div class="update-card">
                     <div class="update-date">Beta 1.0 | 16 Maj 2026</div>
-                    <h3>Wielki Start</h3>
-                    <p>Serwer wystartował. Dodaliśmy 5 nowych mechanik oraz naprawiliśmy ekonomię.</p>
+                    <h3>Wielki Start Serwera</h3>
+                    <p>Serwer wystartował. Dodaliśmy 5 nowych mechanik oraz naprawiliśmy ekonomię na spawnie.</p>
                 </div>
                 <div class="update-card">
                     <div class="update-date">Hotfix 1.0.0 | 16 Maj 2026</div>
-                    <h3>Nowości Systemowe</h3>
-                    <p>Naprawiono błędy, zwiększono optymalizację przesyłu danych o 70%.</p>
+                    <h3>Nowości Serwerowe</h3>
+                    <p>Naprawiono błędy, zwiększono wytrzymałość Galaktycznego Haku o 70%.</p>
                 </div>
             </div>
         </section>
 
-        <section id="minigame" class="tab-content">
-            <h2 class="section-title">RDZEŃ ENERGETYCZNY</h2>
-            <div class="core-dashboard">
-                <p class="core-desc">Rdzeń traci stabilność. Klikaj w niego, aby podtrzymać system i generować <span style="color: var(--accent); font-weight: bold;">HyperCoins</span>!</p>
-                
-                <div class="core-status-bar">
-                    <div id="core-stability-fill" class="stability-fill"></div>
+        <!-- SEKCJA: RANKING (NOWA SEKCJA) -->
+        <section id="ranking" class="tab-content">
+            <h2 class="section-title">TOP GRACZE</h2>
+            <div class="ranking-container">
+                <div class="ranking-box">
+                    <h3>⚔️ Top Zabójstw</h3>
+                    <ol class="ranking-list">
+                        <li><span class="rank-name">ShadowNinja</span> <span class="rank-score">1420 Kills</span></li>
+                        <li><span class="rank-name">TerminatorPL</span> <span class="rank-score">980 Kills</span></li>
+                        <li><span class="rank-name">HyperKing</span> <span class="rank-score">850 Kills</span></li>
+                    </ol>
                 </div>
-                <p class="stability-text-wrapper">Stabilność: <span id="stability-text">100%</span></p>
-                
-                <div id="reactor-core" class="reactor-core" onclick="stabilizeCore()">
-                    <div class="core-inner"></div>
+                <div class="ranking-box">
+                    <h3>⛏️ Wykopane Bloki</h3>
+                    <ol class="ranking-list">
+                        <li><span class="rank-name">MinerPro</span> <span class="rank-score">2.5M Bloków</span></li>
+                        <li><span class="rank-name">SteveTheGod</span> <span class="rank-score">1.8M Bloków</span></li>
+                        <li><span class="rank-name">GigaDrill</span> <span class="rank-score">1.2M Bloków</span></li>
+                    </ol>
                 </div>
             </div>
         </section>
 
+        <!-- SEKCJA: EKONOMIA / SKLEP -->
         <section id="economy" class="tab-content">
             <h2 class="section-title">SKARBIEC HYPERCOINS</h2>
             
-            <div class="coin-dashboard pulse-anim-light">
+            <!-- Portfel -->
+            <div class="coin-dashboard">
                 <div class="big-hc-bill">
                     <span>HC</span>
                 </div>
@@ -123,28 +141,30 @@
                 <p id="timer-text" class="timer-text"></p>
             </div>
 
+            <!-- SKLEP: PAKIETY -->
             <div class="shop-category">
                 <h3 class="category-title">🔥 ZESTAWY (BUNDLES)</h3>
                 <div class="custom-shop">
                     <div class="shop-item bundle-item" onclick="buyBundle('overlord', 2000)">
-                        <div class="bundle-icon hover-float">👑</div>
-                        <h4>Pakiet Władcy</h4>
+                        <div class="bundle-icon">👑</div>
+                        <h4>Pakiet Władcy Endu</h4>
                         <p class="bundle-desc">Motyw VOID + Czcionka Starożytna</p>
                         <span class="price-tag">2000 HC</span>
                     </div>
                 </div>
             </div>
 
+            <!-- SKLEP: MOTYWY -->
             <div class="shop-category">
                 <h3 class="category-title">🎨 MOTYWY WIZUALNE</h3>
                 <div class="custom-shop">
                     <div class="shop-item" onclick="buyTheme('toxic', 300)">
-                        <div class="color-preview toxic hover-spin"></div>
+                        <div class="color-preview toxic"></div>
                         <h4>Toksyczny</h4>
                         <span>300 HC</span>
                     </div>
                     <div class="shop-item" onclick="buyTheme('blood', 500)">
-                        <div class="color-preview blood hover-spin"></div>
+                        <div class="color-preview blood"></div>
                         <h4>Krwawy Księżyc</h4>
                         <span>500 HC</span>
                     </div>
@@ -157,8 +177,9 @@
                 </div>
             </div>
 
+            <!-- SKLEP: CZCIONKI -->
             <div class="shop-category">
-                <h3 class="category-title">🔤 STYLE TEKSTU</h3>
+                <h3 class="category-title">🔤 STYLE TEKSTU (CZCIONKI)</h3>
                 <div class="custom-shop">
                     <div class="shop-item font-preview cyber-font" onclick="buyFont('cyber', 400)">
                         <h4>Haker Systemu</h4>
@@ -180,8 +201,10 @@
         </section>
     </main>
 
+    <!-- KONTENER NA SYSTEMOWE POWIADOMIENIA (TOASTY) -->
     <div id="toast-container"></div>
 
+    <!-- CUSTOMOWE OKNO POTWIERDZENIA ZAKUPU -->
     <div id="custom-confirm-overlay" class="hidden">
         <div class="custom-confirm-box">
             <h3>Pojawiło się zapytanie systemu!</h3>
